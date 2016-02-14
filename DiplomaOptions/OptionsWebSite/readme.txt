@@ -1,0 +1,1 @@
+﻿enable-migrations -ContextProjectName DiplomaDataModel -ContextTypeName OptionPickerContext -MigrationsDirectory Migrations\OptionPickerMigrations -ProjectName OptionsWebSite
