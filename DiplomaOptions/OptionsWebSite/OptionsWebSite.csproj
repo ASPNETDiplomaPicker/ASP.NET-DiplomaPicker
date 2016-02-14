@@ -201,6 +201,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\OptionPickerMigrations\201602140034308_InitialCreate.cs" />
+    <Compile Include="Migrations\OptionPickerMigrations\201602140034308_InitialCreate.Designer.cs">
+      <DependentUpon>201602140034308_InitialCreate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\OptionPickerMigrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -286,6 +290,11 @@
       <Project>{926e46c8-e7e0-4ddd-bf7c-9e45d5460c84}</Project>
       <Name>DiplomaDataModel</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\OptionPickerMigrations\201602140034308_InitialCreate.resx">
+      <DependentUpon>201602140034308_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
