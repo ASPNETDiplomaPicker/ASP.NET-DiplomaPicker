@@ -50,7 +50,7 @@ namespace OptionsWebSite.Models
     {
         [Required]
         [Display(Name = "User Name")]
-        public string UserName { get; set; }
+        public string Username { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -64,9 +64,9 @@ namespace OptionsWebSite.Models
     public class RegisterViewModel
     {
         [Required]
-        [RegularExpression(@"((A00)+)", ErrorMessage = "Invalid Student ID")]
+        [RegularExpression("A00[0-9]{6}", ErrorMessage = "Invalid Student ID")]
         [Display(Name = "User Name")]
-        public string UserName { get; set; }
+        public string Username { get; set; }
 
         [Required]
         [EmailAddress]
