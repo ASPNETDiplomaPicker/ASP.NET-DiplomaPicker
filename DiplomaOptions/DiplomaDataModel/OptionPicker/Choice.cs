@@ -35,7 +35,6 @@ namespace DiplomaDataModel.OptionPicker
         [Column(Order = 0)]
         [Index(IsUnique = true)]
         [UIHint("OptionDropDown")]
-        [Required(ErrorMessage = "Option is required")]
         [ForeignKey("FirstOption")]
         public int? FirstChoiceOptionId { get; set; }
         [ForeignKey("FirstChoiceOptionId")]
@@ -45,7 +44,6 @@ namespace DiplomaDataModel.OptionPicker
         [Column(Order = 1)]
         [Index(IsUnique = true)]
         [UIHint("OptionDropDown")]
-        [Required(ErrorMessage = "Option is required")]
         [ForeignKey("SecondOption")]
         public int? SecondChoiceOptionId { get; set; }
         [ForeignKey("SecondChoiceOptionId")]
@@ -55,7 +53,6 @@ namespace DiplomaDataModel.OptionPicker
         [Column(Order = 2)]
         [Index(IsUnique = true)]
         [UIHint("OptionDropDown")]
-        [Required(ErrorMessage = "Option is required")]
         [ForeignKey("ThirdOption")]
         public int? ThirdChoiceOptionId { get; set; }
         [ForeignKey("ThirdChoiceOptionId")]
@@ -64,7 +61,6 @@ namespace DiplomaDataModel.OptionPicker
         [Column(Order = 3)]
         [Index(IsUnique = true)]
         [UIHint("OptionDropDown")]
-        [Required(ErrorMessage = "Option is required")]
         [ForeignKey("FourthOption")]
         public int? FourthChoiceOptionId { get; set; }
         [ForeignKey("FourthChoiceOptionId")]

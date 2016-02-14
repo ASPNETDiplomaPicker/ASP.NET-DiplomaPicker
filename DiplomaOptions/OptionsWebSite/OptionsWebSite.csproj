@@ -196,14 +196,15 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ChoicesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\OptionPickerMigrations\201602140034308_InitialCreate.cs" />
-    <Compile Include="Migrations\OptionPickerMigrations\201602140034308_InitialCreate.Designer.cs">
-      <DependentUpon>201602140034308_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\OptionPickerMigrations\201602140221344_InitialCreate.cs" />
+    <Compile Include="Migrations\OptionPickerMigrations\201602140221344_InitialCreate.Designer.cs">
+      <DependentUpon>201602140221344_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\OptionPickerMigrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -273,6 +274,11 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Choices\Create.cshtml" />
+    <Content Include="Views\Choices\Delete.cshtml" />
+    <Content Include="Views\Choices\Details.cshtml" />
+    <Content Include="Views\Choices\Edit.cshtml" />
+    <Content Include="Views\Choices\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -292,8 +298,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\OptionPickerMigrations\201602140034308_InitialCreate.resx">
-      <DependentUpon>201602140034308_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\OptionPickerMigrations\201602140221344_InitialCreate.resx">
+      <DependentUpon>201602140221344_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
