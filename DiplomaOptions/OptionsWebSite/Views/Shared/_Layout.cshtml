@@ -20,13 +20,24 @@
                 @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
+                @if (ViewContext.HttpContext.User.IsInRole("Admin"))
+                {
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                     <li>@Html.ActionLink("Choice", "Index", "Choices")</li>
                 </ul>
+                }
+                @if (ViewContext.HttpContext.User.IsInRole("Student"))
+                {
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li>@Html.ActionLink("Choice", "Create", "Choices")</li>
+                    </ul>
+                }
                 @Html.Partial("_LoginPartial")
+                
             </div>
         </div>
     </div>
