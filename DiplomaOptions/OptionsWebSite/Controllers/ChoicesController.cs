@@ -14,6 +14,26 @@ namespace OptionsWebSite.Controllers
     {
         private OptionPickerContext db = new OptionPickerContext();
 
+        public string getTerm()
+        {
+            var query = from a in db.YearTerms
+                        where a.isDefault.Equals(true)
+                        select a;
+            var term = query.FirstOrDefault();
+            var termString = "";
+            if(term.Term == 10)
+            {
+                termString = "Winter";
+            } else if(term.Term == 20)
+            {
+                termString = "Spring/Summer";
+            }else if(term.Term == 30)
+            {
+                termString = "Fall";
+            }
+            return termString;
+        }
+
         // GET: Choices
         [Authorize(Roles = "Admin")]
         public ActionResult Index()
@@ -45,7 +65,7 @@ namespace OptionsWebSite.Controllers
             ViewBag.FourthChoiceOptionId = new SelectList(db.Options, "OptionId", "Title");
             ViewBag.SecondChoiceOptionId = new SelectList(db.Options, "OptionId", "Title");
             ViewBag.ThirdChoiceOptionId = new SelectList(db.Options, "OptionId", "Title");
-            ViewBag.YearTermId = new SelectList(db.YearTerms, "YearTermId", "YearTermId");
+            ViewBag.YearTermId = getTerm();
             return View();
         }
 
@@ -67,7 +87,7 @@ namespace OptionsWebSite.Controllers
             ViewBag.FourthChoiceOptionId = new SelectList(db.Options, "OptionId", "Second Choice", choice.FourthChoiceOptionId);
             ViewBag.SecondChoiceOptionId = new SelectList(db.Options, "OptionId", "Third Choice", choice.SecondChoiceOptionId);
             ViewBag.ThirdChoiceOptionId = new SelectList(db.Options, "OptionId", "Fourth Choice", choice.ThirdChoiceOptionId);
-            ViewBag.YearTermId = new SelectList(db.YearTerms, "YearTermId", "YearTermId", choice.YearTermId);
+            ViewBag.YearTermId = getTerm();
             return View(choice);
         }
 
