@@ -1,0 +1,5 @@
+﻿enable-migrations -ContextProjectName DiplomaDataModel -ContextTypeName OptionPickerContext -MigrationsDirectory Migrations\OptionPickerMigrations -ProjectName OptionsWebSite
+
+add-migration -ConfigurationTypeName OptionsWebSite.Migrations.OptionPickerMigrations.Configuration "InitialCreate"
+
+update-database -ConfigurationTypeName Courses.Web.Migrations.CourseMigrations.Configuration
