@@ -199,6 +199,8 @@
     <Compile Include="Controllers\ChoicesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\OptionsController.cs" />
+    <Compile Include="Controllers\YearTermController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -287,7 +289,16 @@
     <Content Include="Views\Choices\Details.cshtml" />
     <Content Include="Views\Choices\Edit.cshtml" />
     <Content Include="Views\Choices\Index.cshtml" />
-    <Content Include="Views\Shared\_CustomePartial.cshtml" />
+    <Content Include="Views\Options\Create.cshtml" />
+    <Content Include="Views\Options\Delete.cshtml" />
+    <Content Include="Views\Options\Details.cshtml" />
+    <Content Include="Views\Options\Edit.cshtml" />
+    <Content Include="Views\Options\Index.cshtml" />
+    <Content Include="Views\YearTerm\Create.cshtml" />
+    <Content Include="Views\YearTerm\Delete.cshtml" />
+    <Content Include="Views\YearTerm\Details.cshtml" />
+    <Content Include="Views\YearTerm\Edit.cshtml" />
+    <Content Include="Views\YearTerm\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

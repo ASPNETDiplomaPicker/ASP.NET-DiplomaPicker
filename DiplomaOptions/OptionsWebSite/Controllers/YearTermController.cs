@@ -10,17 +10,17 @@ using DiplomaDataModel.OptionPicker;
 
 namespace OptionsWebSite.Controllers
 {
-    public class YearTermsController : Controller
+    public class YearTermController : Controller
     {
         private OptionPickerContext db = new OptionPickerContext();
 
-        // GET: YearTerms
+        // GET: YearTerm
         public ActionResult Index()
         {
             return View(db.YearTerms.ToList());
         }
 
-        // GET: YearTerms/Details/5
+        // GET: YearTerm/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -35,13 +35,13 @@ namespace OptionsWebSite.Controllers
             return View(yearTerm);
         }
 
-        // GET: YearTerms/Create
+        // GET: YearTerm/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: YearTerms/Create
+        // POST: YearTerm/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -58,7 +58,7 @@ namespace OptionsWebSite.Controllers
             return View(yearTerm);
         }
 
-        // GET: YearTerms/Edit/5
+        // GET: YearTerm/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -73,7 +73,7 @@ namespace OptionsWebSite.Controllers
             return View(yearTerm);
         }
 
-        // POST: YearTerms/Edit/5
+        // POST: YearTerm/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -89,7 +89,7 @@ namespace OptionsWebSite.Controllers
             return View(yearTerm);
         }
 
-        // GET: YearTerms/Delete/5
+        // GET: YearTerm/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -104,7 +104,7 @@ namespace OptionsWebSite.Controllers
             return View(yearTerm);
         }
 
-        // POST: YearTerms/Delete/5
+        // POST: YearTerm/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

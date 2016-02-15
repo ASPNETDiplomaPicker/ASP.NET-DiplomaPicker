@@ -65,7 +65,8 @@ namespace OptionsWebSite.Controllers
             ViewBag.FourthChoiceOptionId = new SelectList(db.Options, "OptionId", "Title");
             ViewBag.SecondChoiceOptionId = new SelectList(db.Options, "OptionId", "Title");
             ViewBag.ThirdChoiceOptionId = new SelectList(db.Options, "OptionId", "Title");
-            ViewBag.YearTermId = getTerm();
+            ViewBag.YearTermId = new SelectList(db.YearTerms, "YearTermId", "YearTermId");
+            ViewBag.YearTerm = getTerm();
             return View();
         }
 
@@ -87,7 +88,8 @@ namespace OptionsWebSite.Controllers
             ViewBag.FourthChoiceOptionId = new SelectList(db.Options, "OptionId", "Second Choice", choice.FourthChoiceOptionId);
             ViewBag.SecondChoiceOptionId = new SelectList(db.Options, "OptionId", "Third Choice", choice.SecondChoiceOptionId);
             ViewBag.ThirdChoiceOptionId = new SelectList(db.Options, "OptionId", "Fourth Choice", choice.ThirdChoiceOptionId);
-            ViewBag.YearTermId = getTerm();
+            ViewBag.YearTermId = new SelectList(db.YearTerms, "YearTermId", "YearTermId", choice.YearTermId);
+            ViewBag.YearTerm = getTerm();
             return View(choice);
         }
 
