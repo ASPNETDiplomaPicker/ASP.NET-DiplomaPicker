@@ -10,6 +10,7 @@ using DiplomaDataModel.OptionPicker;
 
 namespace OptionsWebSite.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class OptionsController : Controller
     {
         private OptionPickerContext db = new OptionPickerContext();

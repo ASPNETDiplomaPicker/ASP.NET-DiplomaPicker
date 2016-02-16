@@ -20,8 +20,6 @@ namespace DiplomaDataModel.OptionPicker
         public virtual YearTerm YearTerm { get; set; }
 
         [MaxLength(9)]
-        [ReadOnly(true)]
-        [RegularExpression(@"(A00)+", ErrorMessage = "Invalid Student ID")]
         public string StudentId { get; set; }
 
         [MaxLength(40)]
@@ -32,8 +30,6 @@ namespace DiplomaDataModel.OptionPicker
         [Required(ErrorMessage = "Last name is required")]
         public string StudentLastName { get; set; }
 
-        [Column(Order = 0)]
-        [Index(IsUnique = true)]
         [UIHint("OptionDropDown")]
         [ForeignKey("FirstOption")]
         public int? FirstChoiceOptionId { get; set; }
@@ -41,8 +37,6 @@ namespace DiplomaDataModel.OptionPicker
         public virtual Option FirstOption { get; set; }
 
 
-        [Column(Order = 1)]
-        [Index(IsUnique = true)]
         [UIHint("OptionDropDown")]
         [ForeignKey("SecondOption")]
         public int? SecondChoiceOptionId { get; set; }
@@ -50,16 +44,12 @@ namespace DiplomaDataModel.OptionPicker
         public virtual Option SecondOption { get; set; }
 
 
-        [Column(Order = 2)]
-        [Index(IsUnique = true)]
         [UIHint("OptionDropDown")]
         [ForeignKey("ThirdOption")]
         public int? ThirdChoiceOptionId { get; set; }
         [ForeignKey("ThirdChoiceOptionId")]
         public virtual Option ThirdOption { get; set; }
 
-        [Column(Order = 3)]
-        [Index(IsUnique = true)]
         [UIHint("OptionDropDown")]
         [ForeignKey("FourthOption")]
         public int? FourthChoiceOptionId { get; set; }

@@ -1,9 +1,6 @@
 namespace OptionsWebSite.Migrations.OptionPickerMigrations
 {
     using DiplomaDataModel.OptionPicker;
-    using Microsoft.AspNet.Identity;
-    using Microsoft.AspNet.Identity.EntityFramework;
-    using Models;
     using System;
     using System.Collections.Generic;
     using System.Data.Entity;

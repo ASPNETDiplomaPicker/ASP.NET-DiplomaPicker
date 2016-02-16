@@ -5,14 +5,16 @@
 }
 
 <h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+@if (ViewContext.HttpContext.User.IsInRole("Admin"))
+{
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+}
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.YearTerm.YearTermId)
+            @Html.DisplayNameFor(model => model.YearTerm.YearTerms)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.StudentId)
@@ -41,7 +43,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.YearTerm.YearTermId)
+            @Html.DisplayFor(modelItem => item.YearTerm.YearTerms)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.StudentId)
@@ -64,11 +66,14 @@
         <td>
             @Html.DisplayFor(modelItem => item.FourthOption.Title)
         </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ChoiceId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ChoiceId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ChoiceId })
-        </td>
+        @if (ViewContext.HttpContext.User.IsInRole("Admin"))
+        {
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ChoiceId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ChoiceId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ChoiceId })
+            </td>
+        }
     </tr>
 }
 
