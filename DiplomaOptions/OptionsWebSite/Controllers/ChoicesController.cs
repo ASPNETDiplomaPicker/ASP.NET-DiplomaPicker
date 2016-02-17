@@ -10,6 +10,7 @@ using DiplomaDataModel.OptionPicker;
 using OptionsWebSite.Models;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity;
+using System.Collections;
 
 namespace OptionsWebSite.Controllers
 {
@@ -26,15 +27,25 @@ namespace OptionsWebSite.Controllers
             var termString = "";
             if(term.Term == 10)
             {
-                termString = "Winter";
+                termString = term.Year.ToString() + " Winter";
             } else if(term.Term == 20)
             {
-                termString = "Spring/Summer";
-            }else if(term.Term == 30)
+                termString = term.Year.ToString() + " Spring/Summer";
+            }
+            else if(term.Term == 30)
             {
-                termString = "Fall";
+                termString = term.Year.ToString() + " Fall";
             }
             return termString;
+        }
+
+        public IEnumerable getValidOption()
+        {
+            var query = from a in db.Options
+                        where a.isActive.Equals(true)
+                        select a;
+            var validOption = query.AsEnumerable();
+            return validOption;
         }
 
         // GET: Choices
@@ -66,11 +77,11 @@ namespace OptionsWebSite.Controllers
         public ActionResult Create()
         {
             ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
-            ViewBag.FirstChoiceOptionId = new SelectList(db.Options, "OptionId", "Title");
-            ViewBag.FourthChoiceOptionId = new SelectList(db.Options, "OptionId", "Title");
-            ViewBag.SecondChoiceOptionId = new SelectList(db.Options, "OptionId", "Title");
-            ViewBag.ThirdChoiceOptionId = new SelectList(db.Options, "OptionId", "Title");
-            ViewBag.YearTermId = new SelectList(db.YearTerms, "YearTermId", "YearTermId");
+            ViewBag.FirstChoiceOptionId = new SelectList(getValidOption(), "OptionId", "Title");
+            ViewBag.FourthChoiceOptionId = new SelectList(getValidOption(), "OptionId", "Title");
+            ViewBag.SecondChoiceOptionId = new SelectList(getValidOption(), "OptionId", "Title");
+            ViewBag.ThirdChoiceOptionId = new SelectList(getValidOption(), "OptionId", "Title");
+            ViewBag.YearTermId = new SelectList(getTerm(), "YearTermId", "YearTermId");
             ViewBag.StudentId = user.UserName;
             ViewBag.YearTerm = getTerm();
             return View();
