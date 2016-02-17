@@ -39,6 +39,7 @@ namespace OptionsWebSite.Controllers
             return termString;
         }
 
+
         public IEnumerable getValidOption()
         {
             var query = from a in db.Options
@@ -49,7 +50,7 @@ namespace OptionsWebSite.Controllers
         }
 
         // GET: Choices
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             var choices = db.Choices.Include(c => c.FirstOption).Include(c => c.FourthOption).Include(c => c.SecondOption).Include(c => c.ThirdOption).Include(c => c.YearTerm);
@@ -105,7 +106,7 @@ namespace OptionsWebSite.Controllers
             ViewBag.FourthChoiceOptionId = new SelectList(db.Options, "OptionId", "Second Choice", choice.FourthChoiceOptionId);
             ViewBag.SecondChoiceOptionId = new SelectList(db.Options, "OptionId", "Third Choice", choice.SecondChoiceOptionId);
             ViewBag.ThirdChoiceOptionId = new SelectList(db.Options, "OptionId", "Fourth Choice", choice.ThirdChoiceOptionId);
-            ViewBag.YearTermId = new SelectList(db.YearTerms, "YearTermId", "YearTermId", choice.YearTermId);
+            ViewBag.YearTermId = new SelectList(getTerm(), "YearTermId", "YearTermId", choice.YearTermId);
             ViewBag.YearTerm = getTerm();
             return View(choice);
         }
@@ -123,11 +124,11 @@ namespace OptionsWebSite.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.FirstChoiceOptionId = new SelectList(db.Options, "OptionId", "Title", choice.FirstChoiceOptionId);
-            ViewBag.FourthChoiceOptionId = new SelectList(db.Options, "OptionId", "Title", choice.FourthChoiceOptionId);
-            ViewBag.SecondChoiceOptionId = new SelectList(db.Options, "OptionId", "Title", choice.SecondChoiceOptionId);
-            ViewBag.ThirdChoiceOptionId = new SelectList(db.Options, "OptionId", "Title", choice.ThirdChoiceOptionId);
-            ViewBag.YearTermId = new SelectList(db.YearTerms, "YearTermId", "YearTermId", choice.YearTermId);
+            ViewBag.FirstChoiceOptionId = new SelectList(getValidOption(), "OptionId", "Title", choice.FirstChoiceOptionId);
+            ViewBag.FourthChoiceOptionId = new SelectList(getValidOption(), "OptionId", "Title", choice.FourthChoiceOptionId);
+            ViewBag.SecondChoiceOptionId = new SelectList(getValidOption(), "OptionId", "Title", choice.SecondChoiceOptionId);
+            ViewBag.ThirdChoiceOptionId = new SelectList(getValidOption(), "OptionId", "Title", choice.ThirdChoiceOptionId);
+            ViewBag.YearTermId = new SelectList(getTerm(), "YearTermId", "YearTermId", choice.YearTermId);
             return View(choice);
         }
 
@@ -145,11 +146,11 @@ namespace OptionsWebSite.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.FirstChoiceOptionId = new SelectList(db.Options, "OptionId", "Title", choice.FirstChoiceOptionId);
-            ViewBag.FourthChoiceOptionId = new SelectList(db.Options, "OptionId", "Title", choice.FourthChoiceOptionId);
-            ViewBag.SecondChoiceOptionId = new SelectList(db.Options, "OptionId", "Title", choice.SecondChoiceOptionId);
-            ViewBag.ThirdChoiceOptionId = new SelectList(db.Options, "OptionId", "Title", choice.ThirdChoiceOptionId);
-            ViewBag.YearTermId = new SelectList(db.YearTerms, "YearTermId", "YearTermId", choice.YearTermId);
+            ViewBag.FirstChoiceOptionId = new SelectList(getValidOption(), "OptionId", "Title", choice.FirstChoiceOptionId);
+            ViewBag.FourthChoiceOptionId = new SelectList(getValidOption(), "OptionId", "Title", choice.FourthChoiceOptionId);
+            ViewBag.SecondChoiceOptionId = new SelectList(getValidOption(), "OptionId", "Title", choice.SecondChoiceOptionId);
+            ViewBag.ThirdChoiceOptionId = new SelectList(getValidOption(), "OptionId", "Title", choice.ThirdChoiceOptionId);
+            ViewBag.YearTermId = new SelectList(getTerm(), "YearTermId", "YearTermId", choice.YearTermId);
             return View(choice);
         }
 

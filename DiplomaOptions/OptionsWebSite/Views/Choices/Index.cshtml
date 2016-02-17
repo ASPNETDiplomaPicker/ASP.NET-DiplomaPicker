@@ -43,8 +43,8 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.YearTerm.Year)&nbsp;
-            @if(item.YearTerm.Term == 10)
+            @Html.DisplayFor(modelItem => item.YearTerm.Year)
+            @*@if(item.YearTerm.Term == 10)
             {
                 <span>Winter</span>
             }
@@ -55,7 +55,7 @@
             @if(item.YearTerm.Term == 30)
             {
                 <span>Fall</span>
-            }
+            }*@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.StudentId)
