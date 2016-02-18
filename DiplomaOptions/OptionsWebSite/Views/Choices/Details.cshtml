@@ -4,44 +4,12 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>Report</h2>
 
 <div>
     <h4>Choice</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.FirstOption.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FirstOption.Title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.FourthOption.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FourthOption.Title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.SecondOption.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.SecondOption.Title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ThirdOption.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ThirdOption.Title)
-        </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.YearTerm.YearTermId)
         </dt>
@@ -51,7 +19,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.StudentId)
+            Student Id
         </dt>
 
         <dd>
@@ -59,7 +27,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.StudentFirstName)
+            First Name
         </dt>
 
         <dd>
@@ -67,12 +35,45 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.StudentLastName)
+            Last Name
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.StudentLastName)
         </dd>
+        <dt>
+            First Option:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstOption.Title)
+        </dd>
+
+        <dt>
+            Second Option: 
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SecondOption.Title)
+        </dd>
+
+        <dt>
+            Third Option:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ThirdOption.Title)
+        </dd>
+
+        <dt>
+            Forth Option:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FourthOption.Title)
+        </dd>
+
+
 
     </dl>
 </div>
