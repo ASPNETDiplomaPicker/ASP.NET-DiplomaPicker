@@ -72,6 +72,12 @@ namespace OptionsWebSite.Controllers
                 ModelState.AddModelError("", "Cannot pick duplicate options");
                 isValid = false;
             }
+
+            if (!multiPick(choice))
+            {
+                ModelState.AddModelError("", "Cannot pick option for the same year term");
+                isValid = false;
+            }
   
 
             if (ModelState.IsValid && isValid)
@@ -264,6 +270,21 @@ namespace OptionsWebSite.Controllers
             dict.Add("yearTermName", yearTermName);
 
             return dict;
+        }
+
+        private bool multiPick(Choice choice)
+        {
+            if (choice != null)
+            {
+                var sameStudentYearTerm = db.Choices.Where(c => c.StudentId == choice.StudentId 
+                && c.YearTermId == choice.YearTermId).Count();
+
+                if (sameStudentYearTerm != 0)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }
