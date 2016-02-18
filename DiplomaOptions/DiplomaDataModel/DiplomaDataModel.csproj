@@ -57,7 +57,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Identity\IdentityModels.cs" />
     <Compile Include="OptionPicker\Choice.cs" />
     <Compile Include="OptionPicker\Option.cs" />

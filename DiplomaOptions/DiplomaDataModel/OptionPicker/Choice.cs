@@ -20,48 +20,45 @@ namespace DiplomaDataModel.OptionPicker
         public virtual YearTerm YearTerm { get; set; }
 
         [MaxLength(9)]
-        [ReadOnly(true)]
-        [RegularExpression(@"(A00)+", ErrorMessage = "Invalid Student ID")]
+        [Display(Name = "Student ID")]
         public string StudentId { get; set; }
 
         [MaxLength(40)]
+        [Display(Name = "First Name")]
         [Required(ErrorMessage = "First name is required")]
         public string StudentFirstName { get; set; }
 
         [MaxLength(40)]
+        [Display(Name = "Last Name")]
         [Required(ErrorMessage = "Last name is required")]
         public string StudentLastName { get; set; }
 
-        [Column(Order = 0)]
-        [Index(IsUnique = true)]
         [UIHint("OptionDropDown")]
         [ForeignKey("FirstOption")]
+        [Display(Name = "First Choice")]
         public int? FirstChoiceOptionId { get; set; }
         [ForeignKey("FirstChoiceOptionId")]
         public virtual Option FirstOption { get; set; }
 
 
-        [Column(Order = 1)]
-        [Index(IsUnique = true)]
         [UIHint("OptionDropDown")]
+        [Display(Name = "Second Choice")]
         [ForeignKey("SecondOption")]
         public int? SecondChoiceOptionId { get; set; }
         [ForeignKey("SecondChoiceOptionId")]
         public virtual Option SecondOption { get; set; }
 
 
-        [Column(Order = 2)]
-        [Index(IsUnique = true)]
         [UIHint("OptionDropDown")]
         [ForeignKey("ThirdOption")]
+        [Display(Name = "Third Choice")]
         public int? ThirdChoiceOptionId { get; set; }
         [ForeignKey("ThirdChoiceOptionId")]
         public virtual Option ThirdOption { get; set; }
 
-        [Column(Order = 3)]
-        [Index(IsUnique = true)]
         [UIHint("OptionDropDown")]
         [ForeignKey("FourthOption")]
+        [Display(Name = "Fourth Choice")]
         public int? FourthChoiceOptionId { get; set; }
         [ForeignKey("FourthChoiceOptionId")]
         public virtual Option FourthOption { get; set; }
