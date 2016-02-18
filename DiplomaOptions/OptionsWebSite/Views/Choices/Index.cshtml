@@ -4,58 +4,58 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
-@if (ViewContext.HttpContext.User.IsInRole("Admin"))
-{
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-}
+<h2>List of Student Choices</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.YearTerm.YearTerms)
+            Year Term
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.StudentId)
+            Student Id
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.StudentFirstName)
+            First Name
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.StudentLastName)
+            Last Name
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOption.Title)
+            First Choice
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.SecondOption.Title)
+            Second Choice
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ThirdOption.Title)
+            Third Choice
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FourthOption.Title)
+            Fourth Choice
         </th>
-        <th></th>
+        <th>
+            Date
+        </th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.YearTerm.Year)
-            @*@if(item.YearTerm.Term == 10)
+            @switch (item.YearTerm.Term)
             {
-                <span>Winter</span>
+                case 10:
+                    @("Winter");
+                    break;
+                case 20:
+                    @("Spring/Summer");
+                    break;
+                case 30:
+                    @("Fall");
+                    break;
             }
-            @if(item.YearTerm.Term == 20)
-            {
-                <span>Spring/Summer</span>
-            }
-            @if(item.YearTerm.Term == 30)
-            {
-                <span>Fall</span>
-            }*@
+            @(item.YearTerm.Year)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.StudentId)
@@ -78,14 +78,14 @@
         <td>
             @Html.DisplayFor(modelItem => item.FourthOption.Title)
         </td>
-        @if (ViewContext.HttpContext.User.IsInRole("Admin"))
-        {
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ChoiceId }) |
-                @Html.ActionLink("Details", "Details", new { id = item.ChoiceId }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ChoiceId })
-            </td>
-        }
+        <td>
+            @Html.DisplayFor(modelItem => item.SelectionDate)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ChoiceId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ChoiceId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ChoiceId })
+        </td>
     </tr>
 }
 

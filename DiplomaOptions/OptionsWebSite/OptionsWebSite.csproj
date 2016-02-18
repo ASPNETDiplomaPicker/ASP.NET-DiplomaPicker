@@ -367,11 +367,6 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Choices\Create.cshtml" />
-    <Content Include="Views\Choices\Delete.cshtml" />
-    <Content Include="Views\Choices\Details.cshtml" />
-    <Content Include="Views\Choices\Edit.cshtml" />
-    <Content Include="Views\Choices\Index.cshtml" />
     <Content Include="Views\Options\Create.cshtml" />
     <Content Include="Views\Options\Delete.cshtml" />
     <Content Include="Views\Options\Details.cshtml" />
@@ -382,6 +377,11 @@
     <Content Include="Views\YearTerm\Details.cshtml" />
     <Content Include="Views\YearTerm\Edit.cshtml" />
     <Content Include="Views\YearTerm\Index.cshtml" />
+    <Content Include="Views\Choices\Create.cshtml" />
+    <Content Include="Views\Choices\Delete.cshtml" />
+    <Content Include="Views\Choices\Details.cshtml" />
+    <Content Include="Views\Choices\Edit.cshtml" />
+    <Content Include="Views\Choices\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

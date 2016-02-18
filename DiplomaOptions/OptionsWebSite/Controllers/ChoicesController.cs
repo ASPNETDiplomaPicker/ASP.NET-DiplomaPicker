@@ -7,10 +7,6 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using DiplomaDataModel.OptionPicker;
-using OptionsWebSite.Models;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.AspNet.Identity;
-using System.Collections;
 
 namespace OptionsWebSite.Controllers
 {
@@ -18,44 +14,14 @@ namespace OptionsWebSite.Controllers
     {
         private OptionPickerContext db = new OptionPickerContext();
 
-        public string getTerm()
-        {
-            var query = from a in db.YearTerms
-                        where a.isDefault.Equals(true)
-                        select a;
-            var term = query.FirstOrDefault();
-            var termString = "";
-            if(term.Term == 10)
-            {
-                termString = term.Year.ToString() + " Winter";
-            } else if(term.Term == 20)
-            {
-                termString = term.Year.ToString() + " Spring/Summer";
-            }
-            else if(term.Term == 30)
-            {
-                termString = term.Year.ToString() + " Fall";
-            }
-            return termString;
-        }
-
-
-        public IEnumerable getValidOption()
-        {
-            var query = from a in db.Options
-                        where a.isActive.Equals(true)
-                        select a;
-            var validOption = query.AsEnumerable();
-            return validOption;
-        }
-
         // GET: Choices
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles ="Admin")]
         public ActionResult Index()
         {
             var choices = db.Choices.Include(c => c.FirstOption).Include(c => c.FourthOption).Include(c => c.SecondOption).Include(c => c.ThirdOption).Include(c => c.YearTerm);
             return View(choices.ToList());
         }
+
 
         // GET: Choices/Details/5
         [Authorize(Roles = "Admin")]
@@ -65,7 +31,8 @@ namespace OptionsWebSite.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Choice choice = db.Choices.Find(id);
+            var choices = db.Choices.Include(c => c.FirstOption).Include(c => c.FourthOption).Include(c => c.SecondOption).Include(c => c.ThirdOption).Include(c => c.YearTerm);
+            Choice choice = choices.Where(c => c.ChoiceId == id).First();
             if (choice == null)
             {
                 return HttpNotFound();
@@ -74,17 +41,18 @@ namespace OptionsWebSite.Controllers
         }
 
         // GET: Choices/Create
-        [Authorize]        
+        [Authorize]
         public ActionResult Create()
         {
-            ApplicationUser user = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
-            ViewBag.FirstChoiceOptionId = new SelectList(getValidOption(), "OptionId", "Title");
-            ViewBag.FourthChoiceOptionId = new SelectList(getValidOption(), "OptionId", "Title");
-            ViewBag.SecondChoiceOptionId = new SelectList(getValidOption(), "OptionId", "Title");
-            ViewBag.ThirdChoiceOptionId = new SelectList(getValidOption(), "OptionId", "Title");
-            ViewBag.YearTermId = new SelectList(getTerm(), "YearTermId", "YearTermId");
-            ViewBag.StudentId = user.UserName;
-            ViewBag.YearTerm = getTerm();
+            var validOptions = getActiveOptions();
+            ViewBag.FirstChoiceOptionId = new SelectList(validOptions, "OptionId", "Title");
+            ViewBag.FourthChoiceOptionId = new SelectList(validOptions, "OptionId", "Title");
+            ViewBag.SecondChoiceOptionId = new SelectList(validOptions, "OptionId", "Title");
+            ViewBag.ThirdChoiceOptionId = new SelectList(validOptions, "OptionId", "Title");
+
+            Dictionary<string, object> yearTermValues = getUsefulYearTerm();
+            ViewBag.yearTermID = yearTermValues["yearTermID"];
+            ViewBag.yearTermName = yearTermValues["yearTermName"];
             return View();
         }
 
@@ -92,22 +60,36 @@ namespace OptionsWebSite.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ChoiceId,YearTermId,StudentId,StudentFirstName,StudentLastName,FirstChoiceOptionId,SecondChoiceOptionId,ThirdChoiceOptionId,FourthChoiceOptionId")] Choice choice)
         {
-            if (ModelState.IsValid)
+            choice.SelectionDate = DateTime.Now;
+
+            bool isValid = true;
+            if (!validChoices(choice))
+            {
+                ModelState.AddModelError("", "Cannot pick duplicate options");
+                isValid = false;
+            }
+  
+
+            if (ModelState.IsValid && isValid)
             {
                 db.Choices.Add(choice);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            var validOptions = getActiveOptions();
+            ViewBag.FirstChoiceOptionId = new SelectList(validOptions, "OptionId", "Title", choice.FirstChoiceOptionId);
+            ViewBag.FourthChoiceOptionId = new SelectList(validOptions, "OptionId", "Title", choice.FourthChoiceOptionId);
+            ViewBag.SecondChoiceOptionId = new SelectList(validOptions, "OptionId", "Title", choice.SecondChoiceOptionId);
+            ViewBag.ThirdChoiceOptionId = new SelectList(validOptions, "OptionId", "Title", choice.ThirdChoiceOptionId);
 
-            ViewBag.FirstChoiceOptionId = new SelectList(db.Options, "OptionId", "First Choice", choice.FirstChoiceOptionId);
-            ViewBag.FourthChoiceOptionId = new SelectList(db.Options, "OptionId", "Second Choice", choice.FourthChoiceOptionId);
-            ViewBag.SecondChoiceOptionId = new SelectList(db.Options, "OptionId", "Third Choice", choice.SecondChoiceOptionId);
-            ViewBag.ThirdChoiceOptionId = new SelectList(db.Options, "OptionId", "Fourth Choice", choice.ThirdChoiceOptionId);
-            ViewBag.YearTermId = new SelectList(getTerm(), "YearTermId", "YearTermId", choice.YearTermId);
-            ViewBag.YearTerm = getTerm();
+            Dictionary<string, object> yearTermValues = getUsefulYearTerm();
+            ViewBag.yearTermID = yearTermValues["yearTermID"];
+            ViewBag.yearTermName = yearTermValues["yearTermName"];
+
             return View(choice);
         }
 
@@ -124,11 +106,21 @@ namespace OptionsWebSite.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.FirstChoiceOptionId = new SelectList(getValidOption(), "OptionId", "Title", choice.FirstChoiceOptionId);
-            ViewBag.FourthChoiceOptionId = new SelectList(getValidOption(), "OptionId", "Title", choice.FourthChoiceOptionId);
-            ViewBag.SecondChoiceOptionId = new SelectList(getValidOption(), "OptionId", "Title", choice.SecondChoiceOptionId);
-            ViewBag.ThirdChoiceOptionId = new SelectList(getValidOption(), "OptionId", "Title", choice.ThirdChoiceOptionId);
-            ViewBag.YearTermId = new SelectList(getTerm(), "YearTermId", "YearTermId", choice.YearTermId);
+            var validOptions = getActiveOptions();
+            ViewBag.FirstChoiceOptionId = new SelectList(validOptions, "OptionId", "Title", choice.FirstChoiceOptionId);
+            ViewBag.FourthChoiceOptionId = new SelectList(validOptions, "OptionId", "Title", choice.FourthChoiceOptionId);
+            ViewBag.SecondChoiceOptionId = new SelectList(validOptions, "OptionId", "Title", choice.SecondChoiceOptionId);
+            ViewBag.ThirdChoiceOptionId = new SelectList(validOptions, "OptionId", "Title", choice.ThirdChoiceOptionId);
+
+            IEnumerable<SelectListItem> termItems = db.YearTerms.Select(c => new SelectListItem()
+            {
+                Value = c.YearTermId.ToString(),
+                Text = (c.Term == 10 ? "Winter " + c.Year :
+             c.Term == 20 ? "Spring/Summer " + c.Year :
+             c.Term == 30 ? "Fall " + c.Year : "Error"),
+            });
+            ViewBag.YearTermID = new SelectList(termItems, "Value", "Text", choice.YearTermId.ToString());
+
             return View(choice);
         }
 
@@ -136,21 +128,40 @@ namespace OptionsWebSite.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public ActionResult Edit([Bind(Include = "ChoiceId,YearTermId,StudentId,StudentFirstName,StudentLastName,FirstChoiceOptionId,SecondChoiceOptionId,ThirdChoiceOptionId,FourthChoiceOptionId")] Choice choice)
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "ChoiceId,YearTermId,StudentId,StudentFirstName,StudentLastName,FirstChoiceOptionId,SecondChoiceOptionId,ThirdChoiceOptionId,FourthChoiceOptionId,SelectionDate")] Choice choice)
         {
-            if (ModelState.IsValid)
+            bool isValid = true;
+            if (!validChoices(choice))
+            {
+                ModelState.AddModelError("", "Cannot pick duplicate options");
+                isValid = false;
+            }
+
+            if (ModelState.IsValid && isValid)
             {
                 db.Entry(choice).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.FirstChoiceOptionId = new SelectList(getValidOption(), "OptionId", "Title", choice.FirstChoiceOptionId);
-            ViewBag.FourthChoiceOptionId = new SelectList(getValidOption(), "OptionId", "Title", choice.FourthChoiceOptionId);
-            ViewBag.SecondChoiceOptionId = new SelectList(getValidOption(), "OptionId", "Title", choice.SecondChoiceOptionId);
-            ViewBag.ThirdChoiceOptionId = new SelectList(getValidOption(), "OptionId", "Title", choice.ThirdChoiceOptionId);
-            ViewBag.YearTermId = new SelectList(getTerm(), "YearTermId", "YearTermId", choice.YearTermId);
+
+            // Retrieve only the active choices
+            var validOptions = getActiveOptions();
+
+            ViewBag.FirstChoiceOptionId = new SelectList(validOptions, "OptionId", "Title", choice.FirstChoiceOptionId);
+            ViewBag.FourthChoiceOptionId = new SelectList(validOptions, "OptionId", "Title", choice.FourthChoiceOptionId);
+            ViewBag.SecondChoiceOptionId = new SelectList(validOptions, "OptionId", "Title", choice.SecondChoiceOptionId);
+            ViewBag.ThirdChoiceOptionId = new SelectList(validOptions, "OptionId", "Title", choice.ThirdChoiceOptionId);
+
+            IEnumerable<SelectListItem> termItems = db.YearTerms.Select(c => new SelectListItem()
+            {
+                Value = c.YearTermId.ToString(),
+                Text = (c.Term == 10 ? "Winter " + c.Year :
+                c.Term == 20 ? "Spring/Summer " + c.Year :
+                c.Term == 30 ? "Fall " + c.Year : "Error"),
+            });
+            ViewBag.YearTermID = new SelectList(termItems, "Value", "Text", choice.YearTermId.ToString());
             return View(choice);
         }
 
@@ -171,8 +182,8 @@ namespace OptionsWebSite.Controllers
         }
 
         // POST: Choices/Delete/5
-        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
@@ -189,6 +200,70 @@ namespace OptionsWebSite.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private bool validChoices(Choice choice)
+        {
+            // Check for non-duplicate options
+            var list = new List<int>();
+            list.Add((int)choice.FirstChoiceOptionId);
+            list.Add((int)choice.SecondChoiceOptionId);
+            list.Add((int)choice.ThirdChoiceOptionId);
+            list.Add((int)choice.FourthChoiceOptionId);
+
+            if (list.Count != list.Distinct().Count())
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        private IQueryable<Option> getActiveOptions()
+        {
+            return db.Options.Where(c => c.isActive == true);
+        }
+
+        private string getYearTermPair(int termVal, int year)
+        {
+            string pair = "";
+
+            switch (termVal)
+            {
+                case 10:
+                    pair = "Winter " + year;
+                    break;
+                case 20:
+                    pair = "Spring/Summer " + year;
+                    break;
+                case 30:
+                    pair = "Fall " + year;
+                    break;
+                default:
+                    break;
+            }
+
+            return pair;
+        }
+
+        private Dictionary<string, object> getUsefulYearTerm()
+        {
+            // Figure out what the name of the currently selected YearTerm is
+            var current = db.YearTerms.Where(c => c.isDefault == true).First();
+            var yearTermId = current.YearTermId;
+            var yearTermVal = current.Term;
+            var yearTermYr = current.Year;
+            var yearTermName = "";
+
+            yearTermName = getYearTermPair(yearTermVal, yearTermYr);
+
+            Dictionary<String, Object> dict = new Dictionary<string, object>();
+            dict.Add("yearTermID", yearTermId);
+            dict.Add("yearTermName", yearTermName);
+
+            return dict;
         }
     }
 }
