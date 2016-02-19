@@ -15,7 +15,7 @@ namespace OptionsWebSite.Controllers
         private OptionPickerContext db = new OptionPickerContext();
 
         // GET: Choices
-        [Authorize(Roles ="Admin")]
+        [Authorize]
         public ActionResult Index()
         {
             var choices = db.Choices.Include(c => c.FirstOption).Include(c => c.FourthOption).Include(c => c.SecondOption).Include(c => c.ThirdOption).Include(c => c.YearTerm);
@@ -37,6 +37,18 @@ namespace OptionsWebSite.Controllers
             {
                 return HttpNotFound();
             }
+
+            if (choice.YearTerm.Term == 10)
+            {
+                ViewBag.yeartermDetail = choice.YearTerm.Year + " Winter";
+            } else if (choice.YearTerm.Term == 20)
+            {
+                ViewBag.yeartermDetail = choice.YearTerm.Year + " Sping/Summer";
+            } else if (choice.YearTerm.Term == 30)
+            {
+                ViewBag.yeartermDetail = choice.YearTerm.Year + " Fall";
+            }
+
             return View(choice);
         }
 
@@ -51,7 +63,7 @@ namespace OptionsWebSite.Controllers
             ViewBag.ThirdChoiceOptionId = new SelectList(validOptions, "OptionId", "Title");
 
             Dictionary<string, object> yearTermValues = getUsefulYearTerm();
-            ViewBag.yearTermID = yearTermValues["yearTermID"];
+            ViewBag.yearTermId = yearTermValues["yearTermId"];
             ViewBag.yearTermName = yearTermValues["yearTermName"];
             return View();
         }
@@ -72,8 +84,13 @@ namespace OptionsWebSite.Controllers
                 ModelState.AddModelError("", "Cannot pick duplicate options");
                 isValid = false;
             }
-  
 
+            if (!multiPick(choice))
+            {
+                ModelState.AddModelError("", "Cannot pick option for the same year term");
+                isValid = false;
+            }
+  
             if (ModelState.IsValid && isValid)
             {
                 db.Choices.Add(choice);
@@ -116,8 +133,8 @@ namespace OptionsWebSite.Controllers
             {
                 Value = c.YearTermId.ToString(),
                 Text = (c.Term == 10 ? "Winter " + c.Year :
-             c.Term == 20 ? "Spring/Summer " + c.Year :
-             c.Term == 30 ? "Fall " + c.Year : "Error"),
+                        c.Term == 20 ? "Spring/Summer " + c.Year :
+                        c.Term == 30 ? "Fall " + c.Year : "Error"),
             });
             ViewBag.YearTermID = new SelectList(termItems, "Value", "Text", choice.YearTermId.ToString());
 
@@ -202,9 +219,9 @@ namespace OptionsWebSite.Controllers
             base.Dispose(disposing);
         }
 
+        // Check for non-duplicate options
         private bool validChoices(Choice choice)
-        {
-            // Check for non-duplicate options
+        {           
             var list = new List<int>();
             list.Add((int)choice.FirstChoiceOptionId);
             list.Add((int)choice.SecondChoiceOptionId);
@@ -221,11 +238,13 @@ namespace OptionsWebSite.Controllers
             }
         }
 
+        //build collection of active options
         private IQueryable<Option> getActiveOptions()
         {
             return db.Options.Where(c => c.isActive == true);
         }
 
+        //generate useful year term string according to Term number
         private string getYearTermPair(int termVal, int year)
         {
             string pair = "";
@@ -248,9 +267,9 @@ namespace OptionsWebSite.Controllers
             return pair;
         }
 
+        //making year term pair
         private Dictionary<string, object> getUsefulYearTerm()
         {
-            // Figure out what the name of the currently selected YearTerm is
             var current = db.YearTerms.Where(c => c.isDefault == true).First();
             var yearTermId = current.YearTermId;
             var yearTermVal = current.Term;
@@ -260,10 +279,26 @@ namespace OptionsWebSite.Controllers
             yearTermName = getYearTermPair(yearTermVal, yearTermYr);
 
             Dictionary<String, Object> dict = new Dictionary<string, object>();
-            dict.Add("yearTermID", yearTermId);
+            dict.Add("yearTermId", yearTermId);
             dict.Add("yearTermName", yearTermName);
 
             return dict;
+        }
+
+        //check if the same user has made choices for the same year and term
+        private bool multiPick(Choice choice)
+        {
+            if (choice != null)
+            {
+                var sameStudentYearTerm = db.Choices.Where(c => c.StudentId == choice.StudentId 
+                && c.YearTermId == choice.YearTermId).Count();
+
+                if (sameStudentYearTerm != 0)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

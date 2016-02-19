@@ -49,6 +49,18 @@ namespace OptionsWebSite.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "YearTermId,Year,Term,isDefault")] YearTerm yearTerm)
         {
+            if (yearTerm.isDefault)
+            {
+                var unchoosen = (from c in db.YearTerms
+                                 where c.isDefault == true
+                                 select c).First();
+                unchoosen.isDefault = false;
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+
             if (ModelState.IsValid)
             {
                 db.YearTerms.Add(yearTerm);
@@ -81,6 +93,18 @@ namespace OptionsWebSite.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "YearTermId,Year,Term,isDefault")] YearTerm yearTerm)
         {
+            if(yearTerm.isDefault)
+            {
+                var unchoosen = (from c in db.YearTerms
+                         where c.isDefault == true
+                         select c).First();
+                unchoosen.isDefault = false;
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+
             if (ModelState.IsValid)
             {
                 db.Entry(yearTerm).State = EntityState.Modified;
@@ -124,5 +148,6 @@ namespace OptionsWebSite.Controllers
             }
             base.Dispose(disposing);
         }
+
     }
 }
