@@ -63,7 +63,7 @@ namespace OptionsWebSite.Controllers
             ViewBag.ThirdChoiceOptionId = new SelectList(validOptions, "OptionId", "Title");
 
             Dictionary<string, object> yearTermValues = getUsefulYearTerm();
-            ViewBag.yearTermID = yearTermValues["yearTermID"];
+            ViewBag.yearTermId = yearTermValues["yearTermId"];
             ViewBag.yearTermName = yearTermValues["yearTermName"];
             return View();
         }
@@ -91,7 +91,6 @@ namespace OptionsWebSite.Controllers
                 isValid = false;
             }
   
-
             if (ModelState.IsValid && isValid)
             {
                 db.Choices.Add(choice);
@@ -134,8 +133,8 @@ namespace OptionsWebSite.Controllers
             {
                 Value = c.YearTermId.ToString(),
                 Text = (c.Term == 10 ? "Winter " + c.Year :
-             c.Term == 20 ? "Spring/Summer " + c.Year :
-             c.Term == 30 ? "Fall " + c.Year : "Error"),
+                        c.Term == 20 ? "Spring/Summer " + c.Year :
+                        c.Term == 30 ? "Fall " + c.Year : "Error"),
             });
             ViewBag.YearTermID = new SelectList(termItems, "Value", "Text", choice.YearTermId.ToString());
 
@@ -220,9 +219,9 @@ namespace OptionsWebSite.Controllers
             base.Dispose(disposing);
         }
 
+        // Check for non-duplicate options
         private bool validChoices(Choice choice)
-        {
-            // Check for non-duplicate options
+        {           
             var list = new List<int>();
             list.Add((int)choice.FirstChoiceOptionId);
             list.Add((int)choice.SecondChoiceOptionId);
@@ -239,11 +238,13 @@ namespace OptionsWebSite.Controllers
             }
         }
 
+        //build collection of active options
         private IQueryable<Option> getActiveOptions()
         {
             return db.Options.Where(c => c.isActive == true);
         }
 
+        //generate useful year term string according to Term number
         private string getYearTermPair(int termVal, int year)
         {
             string pair = "";
@@ -266,9 +267,9 @@ namespace OptionsWebSite.Controllers
             return pair;
         }
 
+        //making year term pair
         private Dictionary<string, object> getUsefulYearTerm()
         {
-            // Figure out what the name of the currently selected YearTerm is
             var current = db.YearTerms.Where(c => c.isDefault == true).First();
             var yearTermId = current.YearTermId;
             var yearTermVal = current.Term;
@@ -278,12 +279,13 @@ namespace OptionsWebSite.Controllers
             yearTermName = getYearTermPair(yearTermVal, yearTermYr);
 
             Dictionary<String, Object> dict = new Dictionary<string, object>();
-            dict.Add("yearTermID", yearTermId);
+            dict.Add("yearTermId", yearTermId);
             dict.Add("yearTermName", yearTermName);
 
             return dict;
         }
 
+        //check if the same user has made choices for the same year and term
         private bool multiPick(Choice choice)
         {
             if (choice != null)
