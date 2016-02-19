@@ -15,7 +15,19 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.YearTerm.YearTermId)
+            @switch (Model.YearTerm.Term)
+            {
+                case 10:
+                    @("Winter");
+                    break;
+                case 20:
+                    @("Spring/Summer");
+                    break;
+                case 30:
+                    @("Fall");
+                    break;
+            }
+            @(Model.YearTerm.Year)
         </dd>
 
         <dt>

@@ -15,7 +15,7 @@ namespace OptionsWebSite.Controllers
         private OptionPickerContext db = new OptionPickerContext();
 
         // GET: Choices
-        [Authorize(Roles ="Admin")]
+        [Authorize]
         public ActionResult Index()
         {
             var choices = db.Choices.Include(c => c.FirstOption).Include(c => c.FourthOption).Include(c => c.SecondOption).Include(c => c.ThirdOption).Include(c => c.YearTerm);
@@ -37,6 +37,18 @@ namespace OptionsWebSite.Controllers
             {
                 return HttpNotFound();
             }
+
+            if (choice.YearTerm.Term == 10)
+            {
+                ViewBag.yeartermDetail = choice.YearTerm.Year + " Winter";
+            } else if (choice.YearTerm.Term == 20)
+            {
+                ViewBag.yeartermDetail = choice.YearTerm.Year + " Sping/Summer";
+            } else if (choice.YearTerm.Term == 30)
+            {
+                ViewBag.yeartermDetail = choice.YearTerm.Year + " Fall";
+            }
+
             return View(choice);
         }
 
@@ -70,6 +82,12 @@ namespace OptionsWebSite.Controllers
             if (!validChoices(choice))
             {
                 ModelState.AddModelError("", "Cannot pick duplicate options");
+                isValid = false;
+            }
+
+            if (!multiPick(choice))
+            {
+                ModelState.AddModelError("", "Cannot pick option for the same year term");
                 isValid = false;
             }
   
@@ -264,6 +282,21 @@ namespace OptionsWebSite.Controllers
             dict.Add("yearTermName", yearTermName);
 
             return dict;
+        }
+
+        private bool multiPick(Choice choice)
+        {
+            if (choice != null)
+            {
+                var sameStudentYearTerm = db.Choices.Where(c => c.StudentId == choice.StudentId 
+                && c.YearTermId == choice.YearTermId).Count();
+
+                if (sameStudentYearTerm != 0)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }
