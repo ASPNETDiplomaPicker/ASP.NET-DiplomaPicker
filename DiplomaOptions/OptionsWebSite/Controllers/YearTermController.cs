@@ -39,6 +39,15 @@ namespace OptionsWebSite.Controllers
         // GET: YearTerm/Create
         public ActionResult Create()
         {
+            List<SelectListItem> terms = new List<SelectListItem>()
+            {
+                new SelectListItem { Selected = false, Text = "Winter", Value = "10"},
+                new SelectListItem { Selected = false, Text = "Spring/Summer", Value = "20"},
+                new SelectListItem { Selected = false, Text = "Fall", Value = "30"},
+            };
+
+            ViewBag.Term = new SelectList(terms, "Value", "Text");
+
             return View();
         }
 
@@ -68,6 +77,15 @@ namespace OptionsWebSite.Controllers
                 return RedirectToAction("Index");
             }
 
+            List<SelectListItem> terms = new List<SelectListItem>()
+            {
+                new SelectListItem { Selected = false, Text = "Winter", Value = "10"},
+                new SelectListItem { Selected = false, Text = "Spring/Summer", Value = "20"},
+                new SelectListItem { Selected = false, Text = "Fall", Value = "30"},
+            };
+
+            ViewBag.Term = new SelectList(terms, "Value", "Text", yearTerm.Term);
+
             return View(yearTerm);
         }
 
@@ -83,6 +101,15 @@ namespace OptionsWebSite.Controllers
             {
                 return HttpNotFound();
             }
+
+            List<SelectListItem> terms = new List<SelectListItem>()
+            {
+                new SelectListItem { Selected = false, Text = "Winter", Value = "10"},
+                new SelectListItem { Selected = false, Text = "Spring/Summer", Value = "20"},
+                new SelectListItem { Selected = false, Text = "Fall", Value = "30"},
+            };
+
+            ViewBag.Term = new SelectList(terms, "Value", "Text", yearTerm.Term);
             return View(yearTerm);
         }
 
@@ -111,6 +138,14 @@ namespace OptionsWebSite.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            List<SelectListItem> terms = new List<SelectListItem>()
+            {
+                new SelectListItem { Selected = false, Text = "Winter", Value = "10"},
+                new SelectListItem { Selected = false, Text = "Spring/Summer", Value = "20"},
+                new SelectListItem { Selected = false, Text = "Fall", Value = "30"},
+            };
+
+            ViewBag.Term = new SelectList(terms, "Value", "Text", yearTerm.Term);
             return View(yearTerm);
         }
 

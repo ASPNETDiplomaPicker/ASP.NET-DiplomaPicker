@@ -13,6 +13,7 @@ namespace DiplomaDataModel.OptionPicker
         public int OptionId { get; set; }
         [MaxLength(50)]
         public string Title { get; set; }
+        [Display(Name = "Is Active")]
         public bool isActive { get; set; }
 
         public List<Choice> choices { get; set; }

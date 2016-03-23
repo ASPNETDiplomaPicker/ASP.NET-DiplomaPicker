@@ -104,7 +104,7 @@ namespace OptionsWebSite.Controllers
             ViewBag.ThirdChoiceOptionId = new SelectList(validOptions, "OptionId", "Title", choice.ThirdChoiceOptionId);
 
             Dictionary<string, object> yearTermValues = getUsefulYearTerm();
-            ViewBag.yearTermID = yearTermValues["yearTermID"];
+            ViewBag.yearTermId = yearTermValues["yearTermId"];
             ViewBag.yearTermName = yearTermValues["yearTermName"];
 
             return View(choice);
