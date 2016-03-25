@@ -11,8 +11,8 @@ namespace DiplomaDataModel.OptionPicker
     {
         public OptionPickerContext() : base("DefaultConnection") { }
 
-        public DbSet<Choice> Choices { get; set; }
-        public DbSet<Option> Options { get; set; }
-        public DbSet<YearTerm> YearTerms { get; set; }
+        public IDbSet<Choice> Choices { get; set; }
+        public IDbSet<Option> Options { get; set; }
+        public IDbSet<YearTerm> YearTerms { get; set; }
     }
 }
