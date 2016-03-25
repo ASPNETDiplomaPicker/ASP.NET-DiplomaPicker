@@ -13,6 +13,7 @@ namespace DiplomaDataModel.OptionPicker
         public int YearTermId { get; set; }
         public int Year { get; set; }
         public int Term { get; set; }
+        [Display(Name = "Is Default")]
         public bool isDefault { get; set; }
 
         public List<YearTerm> YearTerms { get; set; }

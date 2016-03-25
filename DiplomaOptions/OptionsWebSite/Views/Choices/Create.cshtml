@@ -18,11 +18,21 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.StudentId,"Student Id: ", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.Hidden("StudentId", User.Identity.Name)
-                @Html.Label("StudentdId", User.Identity.Name, new { @class = "form-control-static" })
-                @Html.ValidationMessageFor(model => model.StudentId, "", new { @class = "text-danger" })
-            </div>
+            @if (ViewContext.HttpContext.User.IsInRole("Student"))
+            {
+                <div class="col-md-10">
+                    @Html.Hidden("StudentId", User.Identity.Name)
+                    @Html.Label("StudentdId", User.Identity.Name, new { @class = "form-control-static" })
+                    @Html.ValidationMessageFor(model => model.StudentId, "", new { @class = "text-danger" })
+                </div>
+            }
+            @if (ViewContext.HttpContext.User.IsInRole("Admin"))
+            {
+                 <div class="col-md-10">
+                    @Html.EditorFor(model => model.StudentId, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.StudentId, "", new { @class = "text-danger" })
+                </div>
+            }
         </div>
 
         <div class="form-group">
