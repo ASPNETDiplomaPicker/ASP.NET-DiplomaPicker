@@ -15,7 +15,7 @@ namespace OptionsWebSite.Controllers
     public class RolesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-        private object _manageRoles;
+        private object _userManager;
 
         // GET: Roles
         public ActionResult Index()
@@ -151,14 +151,13 @@ namespace OptionsWebSite.Controllers
         {
             get
             {   //cast to match the type of this context
-                return (ApplicationUserManager)_manageRoles ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                return (ApplicationUserManager)_userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
             }
             private set
             {
-                _manageRoles = value;
+                _userManager = value;
             }
         }
-
 
 
         public ActionResult ManageUserRoles()
@@ -178,13 +177,18 @@ namespace OptionsWebSite.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult RoleAddToUser(string UserName, string RoleName)
         {
-            ViewBag.ResultMessage = "Invalid Value!";
 
-            if (!string.IsNullOrWhiteSpace(UserName))
+
+
+            ViewBag.ResultMessage = "Invalid Value!";
+            ViewBag.messageFlag = 1;
+
+            if (!string.IsNullOrWhiteSpace(UserName) && !string.IsNullOrWhiteSpace(RoleName))
             {
                 ApplicationUser user = db.Users.Where(u => u.UserName.Equals(UserName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
                 UserManager.AddToRole(user.Id, RoleName);
-                ViewBag.ResultMessage = "Role created successfully !";
+                ViewBag.ResultMessage = "Role added successfully !";
+                ViewBag.messageFlag = 0;
             }
             // prepopulate roles for the view dropdown
             var list = db.Roles.OrderBy(r => r.Name).ToList().Select(rr => new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
@@ -200,40 +204,56 @@ namespace OptionsWebSite.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult GetRoles(string UserName)
         {
+            ViewBag.ResultMessage = "Invalid Value!";
+            ViewBag.messageFlag = 1;
             if (!string.IsNullOrWhiteSpace(UserName))
             {
                 ApplicationUser user = db.Users.Where(u => u.UserName.Equals(UserName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
 
                 ViewBag.RolesForThisUser = UserManager.GetRoles(user.Id);
-
-                // prepopulate roles for the view dropdown
-                var list = db.Roles.OrderBy(r => r.Name).ToList().Select(rr => new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
-                var userList = db.Users.Select(c => new SelectListItem { Value = c.UserName.ToString(), Text = c.UserName.ToString() });
-                ViewBag.Roles = list;
-                ViewBag.Users = userList;
+                ViewBag.userName = user.UserName;
+                ViewBag.messageFlag = null;
+                //// prepopulate roles for the view dropdown
+                //var list = db.Roles.OrderBy(r => r.Name).ToList().Select(rr => new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
+                //var userList = db.Users.Select(c => new SelectListItem { Value = c.UserName.ToString(), Text = c.UserName.ToString() });
+                //ViewBag.Roles = list;
+                //ViewBag.Users = userList;
             }
+
+            // prepopulate roles for the view dropdown
+            var list = db.Roles.OrderBy(r => r.Name).ToList().Select(rr => new SelectListItem { Value = rr.Name.ToString(), Text = rr.Name }).ToList();
+            var userList = db.Users.Select(c => new SelectListItem { Value = c.UserName.ToString(), Text = c.UserName.ToString() });
+            ViewBag.Roles = list;
+            ViewBag.Users = userList;
 
             return View("ManageUserRoles");
         }
 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteRoleForUser(string UserName, string RoleName)
+        public ActionResult DeleteRoleForUser(string UserName, string[] RoleName)
         {
             ViewBag.ResultMessage = "Invalid Value!";
+            ViewBag.messageFlag = 1;
 
-            if (!string.IsNullOrWhiteSpace(UserName))
+            if (!string.IsNullOrWhiteSpace(UserName) && RoleName != null)
             {
                 ApplicationUser user = db.Users.Where(u => u.UserName.Equals(UserName, StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
 
-                if (UserManager.IsInRole(user.Id, RoleName))
+                foreach (var role in RoleName)
                 {
-                    UserManager.RemoveFromRole(user.Id, RoleName);
-                    ViewBag.ResultMessage = "Role removed from this user successfully !";
-                }
-                else
-                {
-                    ViewBag.ResultMessage = "This user doesn't belong to selected role.";
+                    if (UserManager.IsInRole(user.Id, role))
+                    {
+                        UserManager.RemoveFromRole(user.Id, role);
+                        ViewBag.ResultMessage = "Role removed from this user successfully !";
+                        ViewBag.messageFlag = 0;
+                    }
+                    else
+                    {
+                        ViewBag.ResultMessage = "This user doesn't belong to selected role.";
+                        ViewBag.messageFlag = 1;
+                    }
                 }
 
             }
@@ -246,4 +266,5 @@ namespace OptionsWebSite.Controllers
             return View("ManageUserRoles");
         }
     }
+
 }

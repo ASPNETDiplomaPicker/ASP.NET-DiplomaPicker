@@ -2,12 +2,40 @@
     ViewBag.Title = "ManageUserRoles";
 }
 
-<h2>Manage User Roles</h2>
-
+<div class="row">
+    <div class="col-lg-6 col-md-6">
+        <h2>Manage User Roles</h2>
+    </div>
+    <div class="col-lg-6 col-md-6">
+        <h2>@Html.ActionLink("Create Roles", "Index", "Roles")</h2>
+    </div>
+</div>
 <hr />
 
-<h3>@ViewBag.ResultMessage</h3>
-
+@if (ViewBag.messageFlag == 0)
+{
+    @*<h3 style="text-align: center">@ViewBag.ResultMessage</h3>*@
+    <div class="alert alert-success">
+        @ViewBag.ResultMessage
+    </div>
+}
+else if (ViewBag.messageFlag == 1)
+{
+    @*<h3 style="text-align: center">@ViewBag.ResultMessage</h3>*@
+    <div class="alert alert-danger">
+        @ViewBag.ResultMessage
+    </div>
+}
+<h2>Get/Delete Roles for a User</h2>
+@using (Html.BeginForm("GetRoles", "Roles"))
+{
+    @Html.AntiForgeryToken()
+    <p>
+        Username : @Html.DropDownList("UserName", (IEnumerable<SelectListItem>)ViewBag.Users, "Select ...", new { @class = "form-control" })
+        <input type="submit" value="Get Roles for this User" />
+    </p>
+}
+<hr />
 <h2>Role Add to User</h2>
 
 @using (Html.BeginForm("RoleAddToUser", "Roles"))
@@ -16,51 +44,47 @@
     @Html.ValidationSummary(true)
 
     <p>
-        Username : @Html.DropDownList("UserName", (IEnumerable<SelectListItem>)ViewBag.Users, "Select ...")
-        Role Name: @Html.DropDownList("RoleName", (IEnumerable<SelectListItem>)ViewBag.Roles, "Select ...")
+        Username : @Html.DropDownList("UserName", (IEnumerable<SelectListItem>)ViewBag.Users, "Select ...", new { @class = "form-control" })
+        Role Name: @Html.DropDownList("RoleName", (IEnumerable<SelectListItem>)ViewBag.Roles, "Select ...", new { @class = "form-control" })
 
     </p>
 
     <input type="submit" value="Save" />
 }
 <hr />
-<h3>Get Roles for a User</h3>
-@using (Html.BeginForm("GetRoles", "Roles"))
-{
-    @Html.AntiForgeryToken()
-    <p>
-        @*Username : @Html.TextBox("UserName")*@
-        Username : @Html.DropDownList("UserName", (IEnumerable<SelectListItem>)ViewBag.Users, "Select ...")
-        <input type="submit" value="Get Roles for this User" />
-    </p>
-}
-
-@if (ViewBag.RolesForThisUser != null)
-{
-    <div style="background-color:yellow;">
-        <h3>Roles for this user </h3>
-        <ol>
-            @foreach (string s in ViewBag.RolesForThisUser)
-            {
-                <li>@s</li>
-            }
-        </ol>
-    </div>
-}
-
-<hr />
-<h3>Delete A User from a Role</h3>
-
 @using (Html.BeginForm("DeleteRoleForUser", "Roles"))
 {
     @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
-
-    <p>
-        Username : @Html.DropDownList("UserName", (IEnumerable<SelectListItem>)ViewBag.Users, "Select ...")
-        Role Name: @Html.DropDownList("RoleName", (IEnumerable<SelectListItem>)ViewBag.Roles, "Select ...")
-
-    </p>
-
-    <input type="submit" value="Delete this user from Role" />
+    <input type="hidden" name="UserName" value="@ViewBag.userName" />
+    if (ViewBag.RolesForThisUser != null)
+    {
+        <div>
+            <h3>Roles for this user </h3>
+            <table class="table table-striped">
+                <tr>
+                    <th>
+                        Roles
+                    </th>
+                    <th>
+                        Delete
+                    </th>
+                </tr>
+                @foreach (string s in ViewBag.RolesForThisUser)
+                {
+                    <tr>
+                        <td>@s</td>
+                        @if (ViewBag.userName == "A00111111" && s == "Admin")
+                        {
+                            <td><span style="color:red">Cannot be deleted</span></td>
+                        }
+                        else
+                        {
+                            <td><input name="RoleName" type="checkbox" value="@s" /></td>
+                        }
+                    </tr>
+                }
+            </table>
+            <input type="submit" value="Delete" />
+        </div>
+    }
 }
