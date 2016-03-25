@@ -19,7 +19,7 @@ using OptionsWebAPI.Results;
 
 namespace OptionsWebAPI.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {
