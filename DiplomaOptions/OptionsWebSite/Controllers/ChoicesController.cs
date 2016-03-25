@@ -53,7 +53,7 @@ namespace OptionsWebSite.Controllers
         }
 
         // GET: Choices/Create
-        [Authorize]
+        [Authorize(Roles = "Student")]
         public ActionResult Create()
         {
             var validOptions = getActiveOptions();
