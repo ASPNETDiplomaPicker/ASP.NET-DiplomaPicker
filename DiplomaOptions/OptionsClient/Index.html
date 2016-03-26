@@ -1,0 +1,57 @@
+﻿<!doctype html>
+<html lang="en" class="no-js"  data-ng-app="diplomaPicker">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+    <!-- jquery -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+
+    <!-- bootstraps -->
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://bootswatch.com/cerulean/bootstrap.min.css">
+
+    <!-- angular -->
+    <script data-require="angular.js@*" data-semver="1.4.0-beta.6"
+            src="https://code.angularjs.org/1.4.0-beta.6/angular.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script data-require="angular-route@*" data-semver="1.2.17" src="http://code.angularjs.org/1.2.17/angular-route.js"></script>
+
+    <script src="js/route.js"></script>
+    <script src="js/UserController.js"></script>
+    <script src="js/OptionController.js"></script>
+
+    <title>OptionsClient</title>
+</head>
+<body>
+    <!--nav bar-->
+    <div class="navbar navbar-default">
+        <div class="navbar-header">
+            <!-- toggle icon -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <!-- menu -->
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <div class="navbar-header">
+                <div class="navbar-brand">Diploma Picker</div>
+            </div>
+
+            <ul class="nav navbar-nav pull-right" id="menu">
+                <li><a href="#login">Login</a></li>
+                <li><a href="#register">Register</a></li>
+                <li><a>Hello A--------</a></li>
+                <li><a>Log off</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="container">
+        <div data-ng-view></div>
+    </div>
+</body>
+</html>
