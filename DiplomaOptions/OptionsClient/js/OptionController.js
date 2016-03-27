@@ -1,7 +1,7 @@
 ﻿(function () {
 
     var app = angular.module("diplomaPicker");
-    var url = "http://localhost:51290/api/";
+    var url = "http://optionswebapi.rickychen.me/api/";
     var DisplayPick = function ($scope, $http) {
         // get user id
         // get year and term
@@ -42,7 +42,7 @@
 
 (function () {
     var app = angular.module("diplomaPicker");
-    var url = "http://localhost:51290/api/";
+    var url = "http://optionswebapi.rickychen.me/api/";
 
     var PostPick = function ($scope, $http) {
         $scope.createChoice = function (user) {

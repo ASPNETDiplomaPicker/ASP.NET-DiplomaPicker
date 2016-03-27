@@ -17,7 +17,6 @@
             })
             .when("/summary", {
                 templateUrl: "view/summary.html",
-                controller: "CreateController"
             })
             .otherwise({
                 redirectTo: "/login"
