@@ -60,7 +60,7 @@ namespace OptionsWebAPI.Controllers
 
             return new UserInfoViewModel
             {
-                Email = User.Identity.GetUserName(),
+                UserName = User.Identity.GetUserName(),
                 HasRegistered = externalLogin == null,
                 LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
             };
@@ -108,7 +108,7 @@ namespace OptionsWebAPI.Controllers
             return new ManageInfoViewModel
             {
                 LocalLoginProvider = LocalLoginProvider,
-                Email = user.UserName,
+                UserName = user.UserName,
                 Logins = logins,
                 ExternalLoginProviders = GetExternalLogins(returnUrl, generateState)
             };
@@ -328,7 +328,7 @@ namespace OptionsWebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+            var user = new ApplicationUser() { UserName = model.UserName, Email = model.UserName };
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
 
@@ -357,7 +357,7 @@ namespace OptionsWebAPI.Controllers
                 return InternalServerError();
             }
 
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+            var user = new ApplicationUser() { UserName = model.UserName, Email = model.UserName };
 
             IdentityResult result = await UserManager.CreateAsync(user);
             if (!result.Succeeded)

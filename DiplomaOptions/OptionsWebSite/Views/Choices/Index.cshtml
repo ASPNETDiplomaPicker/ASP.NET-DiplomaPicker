@@ -3,100 +3,73 @@
 @{
     ViewBag.Title = "Index";
 }
+<h2>Student Choices</h2>
+@Html.ActionLink("Create", "Create")
+<div data-ng-app="reports" data-ng-controller="ReportsController">
+    <div class="form-group">
+        @Html.Label("Year/Term", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
 
-    
-<body>
-@if (ViewContext.HttpContext.User.IsInRole("Admin"))
-{
-    <h2>List of Student Choices</h2>
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table class="table">
-        <tr>
-            <th>
-                Year Term
-            </th>
-            <th>
-                Student Id
-            </th>
-            <th>
-                First Name
-            </th>
-            <th>
-                Last Name
-            </th>
-            <th>
-                First Choice
-            </th>
-            <th>
-                Second Choice
-            </th>
-            <th>
-                Third Choice
-            </th>
-            <th>
-                Fourth Choice
-            </th>
-            <th>
-                Date
-            </th>
-        </tr>
+                <select class="form-control" data-ng-model="yearterm" data-ng-options="yt.YearTermId as yt.Year +'/'+ yt.Term +'' for yt in yearterms" data-ng-change="changeYearTerm()"></select>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @switch (item.YearTerm.Term)
-                {
-                    case 10:
-                        @("Winter");
-                        break;
-                    case 20:
-                        @("Spring/Summer");
-                        break;
-                    case 30:
-                        @("Fall");
-                        break;
-                }
-                @(item.YearTerm.Year)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StudentId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StudentFirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StudentLastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstOption.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SecondOption.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ThirdOption.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FourthOption.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SelectionDate)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ChoiceId }) |
-                @Html.ActionLink("Details", "Details", new { id = item.ChoiceId }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ChoiceId })
-            </td>
-        </tr>
-    }
+         </div>
 
-</table>
-}
-@if (ViewContext.HttpContext.User.IsInRole("Student"))
-{
-    <h2>You have successfully picked your options!</h2>
-}
-</body>
+    </div>
+    <div class="form-group">
+        @Html.Label("Report Type", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <select class="form-control" data-ng-model="reporttype" data-ng-options="rt.Id as rt.Type for rt in reporttypes"></select>
+        </div>
+    </div>
+    <button class="btn btn-primary" data-ng-click="generateReports()">Generate Reports</button>
+    <hr />
+    <div data-ng-show="choices && reporttype == 0">
+        <table class="table table-responsive table-striped">
+            <tr>
+                <th>Student Id</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>First Choice</th>
+                <th>Second Choice</th>
+                <th>Third Choice</th>
+                <th colspan="2">Fourth Choice</th>
+            </tr>
+            <tr data-ng-repeat="c in choices | filter:{ YearTermId: yearterm}">
+                <td>{{ c.StudentId }}</td>
+                <td>{{ c.StudentFirstName }}</td>
+                <td>{{ c.StudentLastName }}</td>
+                <td>{{ c.FirstOption.Title }}</td>
+                <td>{{ c.SecondOption.Title}}</td>
+                <td>{{ c.ThirdOption.Title }}</td>
+                <td>{{ c.FourthOption.Title }}</td>
+                <td>
+                    <a href="/Choices/Edit/{{ c.ChoiceId }}">Edit</a>
+                    <a href="/Choices/Details/{{ c.ChoiceId }}">Details</a>
+                    <a href="/Choices/Delete/{{ c.ChoiceId }}">Delete</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div data-ng-show="choices && reporttype == 1">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Choice 1</h2>
+                <div class="ct-chart ct-perfect-fourth" id="chart1"></div>
+            </div>
+            <div class="col-md-6">
+                <h2>Choice 2</h2>
+                <div class="ct-chart ct-perfect-fourth" id="chart2"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Choice 3</h2>
+                <div class="ct-chart ct-perfect-fourth" id="chart3"></div>
+            </div>
+            <div class="col-md-6">
+                <h2>Choice 4</h2>
+                <div class="ct-chart ct-perfect-fourth" id="chart4"></div>
+            </div>
+        </div>
+    </div>
+</div>
