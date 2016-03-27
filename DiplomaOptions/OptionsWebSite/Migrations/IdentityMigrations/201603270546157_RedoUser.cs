@@ -3,7 +3,7 @@ namespace OptionsWebSite.Migrations.IdentityMigrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Identity : DbMigration
+    public partial class RedoUser : DbMigration
     {
         public override void Up()
         {

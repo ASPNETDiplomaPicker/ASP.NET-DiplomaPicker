@@ -7,13 +7,13 @@ namespace OptionsWebSite.Migrations.OptionPickerMigrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class ChoiceCreateV2 : IMigrationMetadata
+    public sealed partial class RedoInitialCreateV3 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(ChoiceCreateV2));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(RedoInitialCreateV3));
         
         string IMigrationMetadata.Id
         {
-            get { return "201603260145045_ChoiceCreateV2"; }
+            get { return "201603270544549_RedoInitialCreateV3"; }
         }
         
         string IMigrationMetadata.Source

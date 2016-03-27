@@ -109,7 +109,7 @@ namespace OptionsWebSite.Migrations.OptionPickerMigrations
                         StudentId = "A00000009",
                         StudentFirstName = "Lesli", StudentLastName = "Young",
                         FirstChoiceOptionId = 4, SecondChoiceOptionId = 2,
-                        ThirdChoiceOptionId = 7, FourthChoiceOptionId = 6,
+                        ThirdChoiceOptionId = 5, FourthChoiceOptionId = 6,
                         SelectionDate = DateTime.Now
                 },
                 new Choice {
@@ -117,14 +117,14 @@ namespace OptionsWebSite.Migrations.OptionPickerMigrations
                         StudentId = "A00000010",
                         StudentFirstName = "Rick", StudentLastName = "Harden",
                         FirstChoiceOptionId = 6, SecondChoiceOptionId = 4,
-                        ThirdChoiceOptionId = 2, FourthChoiceOptionId = 7,
+                        ThirdChoiceOptionId = 2, FourthChoiceOptionId = 3,
                         SelectionDate = DateTime.Now
                 },
                 new Choice {
                         ChoiceId = 11, YearTermId = 3,
                         StudentId = "A00000011",
                         StudentFirstName = "Hank", StudentLastName = "Aaron",
-                        FirstChoiceOptionId = 7, SecondChoiceOptionId = 6,
+                        FirstChoiceOptionId = 3, SecondChoiceOptionId = 6,
                         ThirdChoiceOptionId = 4, FourthChoiceOptionId = 2,
                         SelectionDate = DateTime.Now
                 },
@@ -133,14 +133,14 @@ namespace OptionsWebSite.Migrations.OptionPickerMigrations
                         StudentId = "A00000012",
                         StudentFirstName = "Van", StudentLastName = "Heilsin",
                         FirstChoiceOptionId = 2, SecondChoiceOptionId = 4,
-                        ThirdChoiceOptionId = 7, FourthChoiceOptionId = 6,
+                        ThirdChoiceOptionId = 1, FourthChoiceOptionId = 6,
                         SelectionDate = DateTime.Now
                 },
                 new Choice {
                         ChoiceId = 13, YearTermId = 3,
                         StudentId = "A00000013",
                         StudentFirstName = "Robert", StudentLastName = "Pirlo",
-                        FirstChoiceOptionId = 7, SecondChoiceOptionId = 1,
+                        FirstChoiceOptionId = 2, SecondChoiceOptionId = 1,
                         ThirdChoiceOptionId = 6, FourthChoiceOptionId = 3,
                         SelectionDate = DateTime.Now
                 },
@@ -148,7 +148,7 @@ namespace OptionsWebSite.Migrations.OptionPickerMigrations
                         ChoiceId = 14, YearTermId = 3,
                         StudentId = "A00000014",
                         StudentFirstName = "Bill", StudentLastName = "Morrison",
-                        FirstChoiceOptionId = 5, SecondChoiceOptionId = 5,
+                        FirstChoiceOptionId = 6, SecondChoiceOptionId = 4,
                         ThirdChoiceOptionId = 2, FourthChoiceOptionId = 3,
                         SelectionDate = DateTime.Now
                 },
@@ -164,7 +164,7 @@ namespace OptionsWebSite.Migrations.OptionPickerMigrations
                         ChoiceId = 16, YearTermId = 3,
                         StudentId = "A00000016",
                         StudentFirstName = "Kingsly", StudentLastName = "Coleman",
-                        FirstChoiceOptionId = 7, SecondChoiceOptionId = 5,
+                        FirstChoiceOptionId = 4, SecondChoiceOptionId = 6,
                         ThirdChoiceOptionId = 2, FourthChoiceOptionId = 3,
                         SelectionDate = DateTime.Now
                 },
@@ -173,7 +173,7 @@ namespace OptionsWebSite.Migrations.OptionPickerMigrations
                         StudentId = "A00000017",
                         StudentFirstName = "Margret", StudentLastName = "Marth",
                         FirstChoiceOptionId = 1, SecondChoiceOptionId = 2,
-                        ThirdChoiceOptionId = 3, FourthChoiceOptionId = 7,
+                        ThirdChoiceOptionId = 3, FourthChoiceOptionId = 6,
                         SelectionDate = DateTime.Now
                 },
                 new Choice {
@@ -188,7 +188,7 @@ namespace OptionsWebSite.Migrations.OptionPickerMigrations
                         ChoiceId = 19, YearTermId = 3,
                         StudentId = "A00000019",
                         StudentFirstName = "Jacky", StudentLastName = "Chen",
-                        FirstChoiceOptionId = 7, SecondChoiceOptionId = 7,
+                        FirstChoiceOptionId = 4, SecondChoiceOptionId = 6,
                         ThirdChoiceOptionId = 2, FourthChoiceOptionId = 1,
                         SelectionDate = DateTime.Now
                 }
@@ -197,7 +197,7 @@ namespace OptionsWebSite.Migrations.OptionPickerMigrations
                         ChoiceId = 20, YearTermId = 3,
                         StudentId = "A00000020",
                         StudentFirstName = "Roger", StudentLastName = "Clement",
-                        FirstChoiceOptionId = 7, SecondChoiceOptionId = 2,
+                        FirstChoiceOptionId = 4, SecondChoiceOptionId = 2,
                         ThirdChoiceOptionId = 1, FourthChoiceOptionId = 3,
                         SelectionDate = DateTime.Now
                 }

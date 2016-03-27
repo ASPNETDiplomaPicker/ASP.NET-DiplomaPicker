@@ -3,7 +3,7 @@ namespace OptionsWebSite.Migrations.OptionPickerMigrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class ChoiceCreateV2 : DbMigration
+    public partial class RedoInitialCreateV3 : DbMigration
     {
         public override void Up()
         {

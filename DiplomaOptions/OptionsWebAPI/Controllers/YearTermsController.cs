@@ -19,7 +19,24 @@ namespace OptionsWebAPI.Controllers
         // GET: api/YearTerms
         public IQueryable<YearTerm> GetYearTerms()
         {
+            var yearterms = (from y in db.YearTerms.ToList() select new { YearTermId = y.YearTermId, Year = y.Year, Term = y.Term, IsDefault = y.isDefault, Name = GetYearTermName(y.Term, y.Year) });
+
             return db.YearTerms;
+        }
+
+        private string GetYearTermName(int term, int year)
+        {
+            if (term == 10)
+            {
+                return year + " - Winter";
+            }
+            else if (term == 20)
+            {
+                return year + " - Spring/Summer";
+            }
+            else {
+                return year + " - Fall";
+            }
         }
 
         // GET: api/YearTerms/5

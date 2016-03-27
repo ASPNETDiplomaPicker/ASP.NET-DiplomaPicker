@@ -64,8 +64,7 @@
       <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.0.0\lib\net45\Microsoft.AI.ServerTelemetryChannel.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.AI.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Microsoft.AI.Web">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Web.2.0.0\lib\net45\Microsoft.AI.Web.dll</HintPath>
       <Private>True</Private>
     </Reference>
@@ -213,30 +212,18 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\IdentityMigrations\201602142230439_Identity.cs" />
-    <Compile Include="Migrations\IdentityMigrations\201602142230439_Identity.Designer.cs">
-      <DependentUpon>201602142230439_Identity.cs</DependentUpon>
+    <Compile Include="Migrations\IdentityMigrations\201603270546157_RedoUser.cs" />
+    <Compile Include="Migrations\IdentityMigrations\201603270546157_RedoUser.Designer.cs">
+      <DependentUpon>201603270546157_RedoUser.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\IdentityMigrations\Configuration.cs" />
-    <Compile Include="Migrations\OptionPickerMigrations\201602160143573_DiplomaOptionsCreate.cs" />
-    <Compile Include="Migrations\OptionPickerMigrations\201602160143573_DiplomaOptionsCreate.Designer.cs">
-      <DependentUpon>201602160143573_DiplomaOptionsCreate.cs</DependentUpon>
+    <Compile Include="Migrations\OptionPickerMigrations\201603270543572_RedoInitialCreateV2.cs" />
+    <Compile Include="Migrations\OptionPickerMigrations\201603270543572_RedoInitialCreateV2.Designer.cs">
+      <DependentUpon>201603270543572_RedoInitialCreateV2.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\OptionPickerMigrations\201603260142533_ChoiceCreate.cs" />
-    <Compile Include="Migrations\OptionPickerMigrations\201603260142533_ChoiceCreate.Designer.cs">
-      <DependentUpon>201603260142533_ChoiceCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\OptionPickerMigrations\201603260145045_ChoiceCreateV2.cs" />
-    <Compile Include="Migrations\OptionPickerMigrations\201603260145045_ChoiceCreateV2.Designer.cs">
-      <DependentUpon>201603260145045_ChoiceCreateV2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\OptionPickerMigrations\201603260423260_ChoiceCreateV3.cs" />
-    <Compile Include="Migrations\OptionPickerMigrations\201603260423260_ChoiceCreateV3.Designer.cs">
-      <DependentUpon>201603260423260_ChoiceCreateV3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\OptionPickerMigrations\201603260437101_ChoiceCreateV4.cs" />
-    <Compile Include="Migrations\OptionPickerMigrations\201603260437101_ChoiceCreateV4.Designer.cs">
-      <DependentUpon>201603260437101_ChoiceCreateV4.cs</DependentUpon>
+    <Compile Include="Migrations\OptionPickerMigrations\201603270544549_RedoInitialCreateV3.cs" />
+    <Compile Include="Migrations\OptionPickerMigrations\201603270544549_RedoInitialCreateV3.Designer.cs">
+      <DependentUpon>201603270544549_RedoInitialCreateV3.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\OptionPickerMigrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -1213,23 +1200,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\IdentityMigrations\201602142230439_Identity.resx">
-      <DependentUpon>201602142230439_Identity.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\IdentityMigrations\201603270546157_RedoUser.resx">
+      <DependentUpon>201603270546157_RedoUser.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\OptionPickerMigrations\201602160143573_DiplomaOptionsCreate.resx">
-      <DependentUpon>201602160143573_DiplomaOptionsCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\OptionPickerMigrations\201603270543572_RedoInitialCreateV2.resx">
+      <DependentUpon>201603270543572_RedoInitialCreateV2.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\OptionPickerMigrations\201603260142533_ChoiceCreate.resx">
-      <DependentUpon>201603260142533_ChoiceCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\OptionPickerMigrations\201603260145045_ChoiceCreateV2.resx">
-      <DependentUpon>201603260145045_ChoiceCreateV2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\OptionPickerMigrations\201603260423260_ChoiceCreateV3.resx">
-      <DependentUpon>201603260423260_ChoiceCreateV3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\OptionPickerMigrations\201603260437101_ChoiceCreateV4.resx">
-      <DependentUpon>201603260437101_ChoiceCreateV4.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\OptionPickerMigrations\201603270544549_RedoInitialCreateV3.resx">
+      <DependentUpon>201603270544549_RedoInitialCreateV3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
