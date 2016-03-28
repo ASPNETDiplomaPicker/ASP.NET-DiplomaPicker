@@ -52,8 +52,12 @@
             
             if (!isValid) {
                 //$location.path("/view/register.html");
+                window.alert("something's wrong");
             } else {
-                console.log(JSON.stringify(param));
+                $location.path("/pick");
+                setCookie("username", username, 1);
+                //window.alert(getCookie("username"));
+                //console.log(JSON.stringify(param));
                 $('#loadingmessage').show();
                 $.ajax({
                     url: url,
@@ -92,22 +96,28 @@
                 Username: username,
                 Password: password
             };
-
-            /*
-            $.ajax({
-                type: 'POST',
-                url: 'http://localhost:51290/Token',
-                data: param
-            }).done(function (data) {
-                console.log(data);
-                document.cookie = "access_token=" + data["access_token"];
-            }).fail(function (err) { console.warn(err); });*/
         };
-
-
     }
 
     app.controller("Login", Login);
+}());
+
+(function () {
+
+    var app = angular.module("diplomaPicker");
+    
+    var Logout = function ($scope, $http, $location) {
+        setCookie("username", 0, -1);
+        document.cookie = null;
+        $location.path("/login");
+        /*
+        $scope.logout = function () {
+            window.alert("test");
+            setCookie("username", 0, -1);
+            $location.path("/login");
+        };*/
+    }
+    app.controller("Logout", Logout);
 }());
 
 function validate(param) {
@@ -142,3 +152,31 @@ function validate(param) {
 
     return result;
 }
+
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+d.toUTCString();
+    document.cookie = cname + "=" + cvalue + "; " + expires;
+}
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+    }
+    return "";
+}
+
+function checkCookie() {
+    var user = getCookie("username");
+    if (user != "") {
+        return false;
+    } else {
+        return true;
+    }
+}
+

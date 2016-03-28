@@ -5,11 +5,11 @@
         $routeProvider
             .when("/login", {
                 templateUrl: "view/login.html",
-                controller: "Login"
+                //controller: "Login"
             })
             .when("/register", {
                 templateUrl: "view/register.html",
-                controller: "CreateUser"
+                //controller: "CreateUser"
             })
             .when("/pick", {
                 templateUrl: "view/pick.html",
@@ -17,6 +17,10 @@
             })
             .when("/summary", {
                 templateUrl: "view/summary.html",
+            })
+            .when("/logout", {
+                templateUrl: "view/summary.html",
+                controller: "Logout"
             })
             .otherwise({
                 redirectTo: "/login"
